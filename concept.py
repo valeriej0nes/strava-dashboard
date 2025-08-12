@@ -6,7 +6,6 @@ import os
 # File to store tokens
 TOKEN_FILE = 'strava_tokens.json'
 
-
 def save_tokens(tokens):
     with open(TOKEN_FILE, 'w') as f:
         json.dump(tokens, f)
