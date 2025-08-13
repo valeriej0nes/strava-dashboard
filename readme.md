@@ -1,4 +1,5 @@
 # Strava Dashboard
+This dashboard has been designed for personal use to allow me to explore how to use Strava API. 
 
 Dashboard 1
 ----
