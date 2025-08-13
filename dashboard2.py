@@ -27,6 +27,9 @@ full_df['date'] = pd.to_datetime(full_df['start_date_local']).dt.date
 full_df['distance_m'] = full_df['distance']
 full_df['moving_time_min'] = full_df['moving_time'] / 60
 
+full_df.fillna('-', inplace=True)
+
+
 def month_calendar(year, month):
     cal = calendar.Calendar()
     return cal.monthdatescalendar(year, month)
@@ -70,8 +73,25 @@ if 'selected_date' in st.session_state:
             options=activities_on_date['activity'].unique()
         )
         activity_detail = activities_on_date[activities_on_date['activity'] == selected_activity].iloc[0]
-        st.write(f"**Activity:** {activity_detail['activity']}")
-        st.write(f"**Distance (m):** {activity_detail['distance_m']}")
-        st.write(f"**Moving time (min):** {activity_detail['moving_time_min']}")
+
+        st.title(f"{activity_detail['name']}")
+        st.write(f"{activity_detail['activity']} · {round(activity_detail['distance_m'] / 1000, 1)} km · {round(activity_detail['moving_time_min'], 1)} min")
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown("### Distance (m)")
+            st.markdown(f"**{activity_detail['distance_m']}**")
+            st.caption("TOTAL")
+
+        with col2:
+            st.markdown("### Time (min)")
+            st.markdown(f"**{activity_detail['moving_time_min']}**")
+            st.caption("MOVING")
+
+        with col3:
+            st.markdown("### Heart Rate (bpm)")
+            st.markdown(f"**{activity_detail['average_heartrate']}**")
+            st.caption("AVERAGE")
+
     else:
         st.write("No activities found on this day.")
